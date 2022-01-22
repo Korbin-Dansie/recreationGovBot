@@ -1,14 +1,22 @@
 package src;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class Campsite {
-	Map.Entry<String, String> availabilities;
+	Map<Date, String> availabilities = new HashMap<>();
 	int campsite_id;
 	String campsite_reserve_type;
 	String campsite_type;
@@ -35,47 +43,105 @@ public class Campsite {
 		Set<Map.Entry<String, JsonElement>> entries = obj.entrySet();// will return members of your object
 
 		for (Map.Entry<String, JsonElement> entry : entries) {
-			System.out.println("First Loop: ");
-			System.out.println(entry.getKey() + " : ");
-			System.out.println(entry.getValue());
 
-			JsonElement member = entry.getValue();
-			JsonObject memberAtributes = member.getAsJsonObject();
-			Set<Map.Entry<String, JsonElement>> memberSet = memberAtributes.entrySet();// will return members of
+			JsonElement element2 = entry.getValue();
+			JsonObject obj2 = element2.getAsJsonObject();
+			Set<Map.Entry<String, JsonElement>> entries2 = obj2.entrySet();// will return members of
 																						// your object
-
-			// Get first availabilities
-			System.out.println("Second Loop: ");
-			
-			for (Map.Entry<String, JsonElement> member2 : memberSet) {
-				// Get availabilities info
-				// Loop through availabilities dates
-				if (member2.getKey().equals("availabilities")) {
-					JsonElement availabilities = member2.getValue();
-					JsonObject availabilitiesAtributes = availabilities.getAsJsonObject();
+			// Get first availabilities			
+			for (Map.Entry<String, JsonElement> value : entries2) {
+				// Loop through availabilities dates				
+				switch(value.getKey()) {
+				case "availabilities":
+					JsonElement availabilitiesJson = value.getValue();
+					JsonObject availabilitiesAtributes = availabilitiesJson.getAsJsonObject();
 					Set<Map.Entry<String, JsonElement>> availabilitiesSet = availabilitiesAtributes.entrySet();
-					System.out.println("Third Loop: ");
 					for (Map.Entry<String, JsonElement> dates : availabilitiesSet) {
-						System.out.println("\t\t" + dates.getKey() + " : " + dates.getValue());
-					} // End of third loop
-				}
-				System.out.println("\t" + member2.getKey() + " : " + member2.getValue() + " : "
-						+ member2.getValue().getClass());
-			} // End of second Loop
-			System.out.println();
-		} // END of first Loop
+						
+						String str = dates.getKey();
+						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+						Date date;
+						try {
+							date = formatter.parse(str);
+							availabilities.put(date, dates.getValue().getAsString());
 
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					} // End of availabilities dates					
+
+					break;
+				case "campsite_id":
+					campsite_id = Integer.parseInt(value.getValue().getAsString());
+					break;
+				case "campsite_reserve_type":
+					campsite_reserve_type = value.getValue().getAsString();
+					break;
+				case "campsite_type":
+					campsite_type = value.getValue().getAsString();
+					break;
+				case "capacity_rating":
+					capacity_rating = value.getValue().getAsString();
+					break;
+				case "loop":
+					loop = value.getValue().getAsString();
+					break;
+				case "max_num_people":
+					max_num_people = Integer.parseInt(value.getValue().getAsString());
+					break;
+				case "min_num_people":
+					min_num_people = Integer.parseInt(value.getValue().getAsString());
+					break;
+				case "quantities":
+					// TODO: figure out what quantities is
+					if(value.getValue().getClass() == JsonNull.class) {
+						quantities = "No quatities";
+					} else {
+						quantities = "Unknown quatities";
+					}
+					break;
+				case "site":
+					site = value.getValue().getAsString();
+					break;
+				case "type_of_use":
+					type_of_use = value.getValue().getAsString();
+					break;
+				}
+				
+//				if(value.getKey().equals("campsite_id")) {
+//					campsite_id = Integer.parseInt(value.getValue().getAsString());
+//				}	
+			} // End of second Loop
+		} // END of first Loop
 	}
 	
+	
     public String toString() {
-        return "Key: " + getMax_num_people();
+    	
+    	String text = "----------------------------------------------------------------\n";
+    	text += "availabilities : " + availabilities + "\n";
+    	text +=  "campsite_id : " + campsite_id + "\n";
+    	text +=  "campsite_reserve_type : " + campsite_reserve_type + "\n";
+    	text +=  "campsite_type : " + campsite_type + "\n";
+    	text +=  "capacity_rating : " + capacity_rating + "\n";
+    	text +=  "loop : " + loop + "\n";
+    	text += "max_num_people : " + max_num_people + "\n";
+    	text +=  "min_num_people : " + min_num_people + "\n";
+    	text +=  "quantities : " + quantities + "\n";
+    	text +=  "site : " + site + "\n";
+    	text +=  "type_of_use : " + type_of_use  + "\n";
+    	text += "----------------------------------------------------------------\n";
+
+        return text;
     }
 
-	public Map.Entry<String, String> getAvailabilities() {
+	public Map<Date, String> getAvailabilities() {
 		return availabilities;
 	}
 
-	public void setAvailabilities(Map.Entry<String, String> availabilities) {
+	public void setAvailabilities(Map<Date, String> availabilities) {
 		this.availabilities = availabilities;
 	}
 

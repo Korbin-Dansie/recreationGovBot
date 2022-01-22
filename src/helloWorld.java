@@ -27,10 +27,13 @@ public class helloWorld {
 		// New comment
 
 		try {
-			String campsiteList = new String(getOneCampsite(campSites));
-			Campsite newCampsite = new Campsite(campsiteList);
+			String campsiteList = new String(getAllCampsite(campSites));
 			
-			System.out.println();
+			
+//			Campsite newCampsite = new Campsite(campsiteList);
+			
+			System.out.println(campsiteList);
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
