@@ -1,8 +1,11 @@
 package src;
 
 import java.util.Map;
+import java.util.Set;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class Campsite {
 	Map.Entry<String, String> availabilities;
@@ -21,9 +24,47 @@ public class Campsite {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Campsite(int number) {
+	/**
+	 * Convert a string in json format to a class
+	 * @param jsonString
+	 */
+	public Campsite(String jsonString) {
 		// TODO Auto-generated constructor stub
-		this.max_num_people = number;
+		JsonElement element = JsonParser.parseString(jsonString);
+		JsonObject obj = element.getAsJsonObject(); // since you know it's a JsonObject
+		Set<Map.Entry<String, JsonElement>> entries = obj.entrySet();// will return members of your object
+
+		for (Map.Entry<String, JsonElement> entry : entries) {
+			System.out.println("First Loop: ");
+			System.out.println(entry.getKey() + " : ");
+			System.out.println(entry.getValue());
+
+			JsonElement member = entry.getValue();
+			JsonObject memberAtributes = member.getAsJsonObject();
+			Set<Map.Entry<String, JsonElement>> memberSet = memberAtributes.entrySet();// will return members of
+																						// your object
+
+			// Get first availabilities
+			System.out.println("Second Loop: ");
+			
+			for (Map.Entry<String, JsonElement> member2 : memberSet) {
+				// Get availabilities info
+				// Loop through availabilities dates
+				if (member2.getKey().equals("availabilities")) {
+					JsonElement availabilities = member2.getValue();
+					JsonObject availabilitiesAtributes = availabilities.getAsJsonObject();
+					Set<Map.Entry<String, JsonElement>> availabilitiesSet = availabilitiesAtributes.entrySet();
+					System.out.println("Third Loop: ");
+					for (Map.Entry<String, JsonElement> dates : availabilitiesSet) {
+						System.out.println("\t\t" + dates.getKey() + " : " + dates.getValue());
+					} // End of third loop
+				}
+				System.out.println("\t" + member2.getKey() + " : " + member2.getValue() + " : "
+						+ member2.getValue().getClass());
+			} // End of second Loop
+			System.out.println();
+		} // END of first Loop
+
 	}
 	
     public String toString() {

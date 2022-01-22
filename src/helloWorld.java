@@ -28,44 +28,8 @@ public class helloWorld {
 
 		try {
 			String campsiteList = new String(getOneCampsite(campSites));
+			Campsite newCampsite = new Campsite(campsiteList);
 			
-			Gson campsiteOne = new Gson();
-			System.out.println(campsiteOne.toJson(campsiteList));
-
-			JsonElement element = JsonParser.parseString(campsiteList);
-			JsonObject obj = element.getAsJsonObject(); // since you know it's a JsonObject
-			Set<Map.Entry<String, JsonElement>> entries = obj.entrySet();// will return members of your object
-
-			for (Map.Entry<String, JsonElement> entry : entries) {
-				System.out.println("First Loop: ");
-				System.out.println(entry.getKey() + " : ");
-				System.out.println(entry.getValue());
-
-				JsonElement member = entry.getValue();
-				JsonObject memberAtributes = member.getAsJsonObject();
-				Set<Map.Entry<String, JsonElement>> memberSet = memberAtributes.entrySet();// will return members of
-																							// your object
-
-				// Get first availabilities
-				System.out.println("Second Loop: ");
-				
-				for (Map.Entry<String, JsonElement> member2 : memberSet) {
-					// Get availabilities info
-					// Loop through availabilities dates
-					if (member2.getKey().equals("availabilities")) {
-						JsonElement availabilities = member2.getValue();
-						JsonObject availabilitiesAtributes = availabilities.getAsJsonObject();
-						Set<Map.Entry<String, JsonElement>> availabilitiesSet = availabilitiesAtributes.entrySet();
-						System.out.println("Third Loop: ");
-						for (Map.Entry<String, JsonElement> dates : availabilitiesSet) {
-							System.out.println("\t\t" + dates.getKey() + " : " + dates.getValue());
-						} // End of third loop
-					}
-					System.out.println("\t" + member2.getKey() + " : " + member2.getValue() + " : "
-							+ member2.getValue().getClass());
-				} // End of second Loop
-				System.out.println();
-			} // END of first Loop
 			System.out.println();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -74,9 +38,6 @@ public class helloWorld {
 
 		}
 		
-		Campsite hello = new Campsite(5);
-		System.out.println(hello);
-
 		System.out.println("end");
 	}
 
