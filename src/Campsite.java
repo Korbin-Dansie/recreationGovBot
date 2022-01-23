@@ -24,7 +24,7 @@ public class Campsite {
 	String loop;
 	int max_num_people;
 	int min_num_people;
-	String quantities;
+	JsonElement quantities;
 	String site;
 	String type_of_use; 
 	
@@ -45,78 +45,76 @@ public class Campsite {
 		for (Map.Entry<String, JsonElement> entry : entries) {
 
 			JsonElement element2 = entry.getValue();
-			JsonObject obj2 = element2.getAsJsonObject();
-			Set<Map.Entry<String, JsonElement>> entries2 = obj2.entrySet();// will return members of
-																						// your object
-			// Get first availabilities			
-			for (Map.Entry<String, JsonElement> value : entries2) {
-				// Loop through availabilities dates				
-				switch(value.getKey()) {
-				case "availabilities":
-					JsonElement availabilitiesJson = value.getValue();
-					JsonObject availabilitiesAtributes = availabilitiesJson.getAsJsonObject();
-					Set<Map.Entry<String, JsonElement>> availabilitiesSet = availabilitiesAtributes.entrySet();
-					for (Map.Entry<String, JsonElement> dates : availabilitiesSet) {
-						
-						String str = dates.getKey();
-						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
-						Date date;
-						try {
-							date = formatter.parse(str);
-							availabilities.put(date, dates.getValue().getAsString());
-
-						} catch (ParseException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-
-					} // End of availabilities dates					
-
-					break;
-				case "campsite_id":
-					campsite_id = Integer.parseInt(value.getValue().getAsString());
-					break;
-				case "campsite_reserve_type":
-					campsite_reserve_type = value.getValue().getAsString();
-					break;
-				case "campsite_type":
-					campsite_type = value.getValue().getAsString();
-					break;
-				case "capacity_rating":
-					capacity_rating = value.getValue().getAsString();
-					break;
-				case "loop":
-					loop = value.getValue().getAsString();
-					break;
-				case "max_num_people":
-					max_num_people = Integer.parseInt(value.getValue().getAsString());
-					break;
-				case "min_num_people":
-					min_num_people = Integer.parseInt(value.getValue().getAsString());
-					break;
-				case "quantities":
-					// TODO: figure out what quantities is
-					if(value.getValue().getClass() == JsonNull.class) {
-						quantities = "No quatities";
-					} else {
-						quantities = "Unknown quatities";
-					}
-					break;
-				case "site":
-					site = value.getValue().getAsString();
-					break;
-				case "type_of_use":
-					type_of_use = value.getValue().getAsString();
-					break;
-				}
-				
-//				if(value.getKey().equals("campsite_id")) {
-//					campsite_id = Integer.parseInt(value.getValue().getAsString());
-//				}	
-			} // End of second Loop
+			constructorFromJsonElement(element2);
 		} // END of first Loop
 	}
 	
+	public Campsite(JsonElement jsonString) {
+		constructorFromJsonElement(jsonString);
+	}
+	
+	private void constructorFromJsonElement(JsonElement Jelement){
+		JsonObject obj2 = Jelement.getAsJsonObject();
+		Set<Map.Entry<String, JsonElement>> entries2 = obj2.entrySet();// will return members of
+		// Get first availabilities			
+		for (Map.Entry<String, JsonElement> value : entries2) {
+			// Loop through availabilities dates				
+			switch(value.getKey()) {
+			case "availabilities":
+				JsonElement availabilitiesJson = value.getValue();
+				JsonObject availabilitiesAtributes = availabilitiesJson.getAsJsonObject();
+				Set<Map.Entry<String, JsonElement>> availabilitiesSet = availabilitiesAtributes.entrySet();
+				for (Map.Entry<String, JsonElement> dates : availabilitiesSet) {
+					
+					String str = dates.getKey();
+					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+					Date date;
+					try {
+						date = formatter.parse(str);
+						availabilities.put(date, dates.getValue().getAsString());
+
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				} // End of availabilities dates					
+
+				break;
+			case "campsite_id":
+				campsite_id = Integer.parseInt(value.getValue().getAsString());
+				break;
+			case "campsite_reserve_type":
+				campsite_reserve_type = value.getValue().getAsString();
+				break;
+			case "campsite_type":
+				campsite_type = value.getValue().getAsString();
+				break;
+			case "capacity_rating":
+				capacity_rating = value.getValue().getAsString();
+				break;
+			case "loop":
+				loop = value.getValue().getAsString();
+				break;
+			case "max_num_people":
+				max_num_people = Integer.parseInt(value.getValue().getAsString());
+				break;
+			case "min_num_people":
+				min_num_people = Integer.parseInt(value.getValue().getAsString());
+				break;
+			case "quantities":
+				// TODO: figure out what quantities is
+					quantities = value.getValue();
+				break;
+			case "site":
+				site = value.getValue().getAsString();
+				break;
+			case "type_of_use":
+				type_of_use = value.getValue().getAsString();
+				break;
+			}
+		} // End of second Loop
+	}
 	
     public String toString() {
     	
@@ -201,11 +199,11 @@ public class Campsite {
 		this.min_num_people = min_num_people;
 	}
 
-	public String getQuantities() {
+	public JsonElement getQuantities() {
 		return quantities;
 	}
 
-	public void setQuantities(String quantities) {
+	public void setQuantities(JsonElement quantities) {
 		this.quantities = quantities;
 	}
 

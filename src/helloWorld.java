@@ -22,17 +22,19 @@ import src.Campsite;
 
 public class helloWorld {
 	public static void main(String[] args) {
-//      System.out.println("Hello, World!"); 
-		String[] campSites = { "98", "102" };
-		// New comment
+		String[] campSites = { "98", "102" };		
 
 		try {
-			String campsiteList = new String(getAllCampsite(campSites));
+			String oneCampsite = new String(getOneCampsite(campSites));
+			System.out.println(oneCampsite.toString());
+			Campsite trueCampsite = new Campsite(oneCampsite);
 			
+			System.out.println(trueCampsite);
 			
-//			Campsite newCampsite = new Campsite(campsiteList);
-			
-			System.out.println(campsiteList);
+			// ALL campsites
+			String stringOfCampsites = new String(getAllCampsite(campSites));	
+			CampsiteList campsiteList = new CampsiteList(stringOfCampsites);
+			System.out.print(campsiteList.toString());
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -44,12 +46,6 @@ public class helloWorld {
 		System.out.println("end");
 	}
 
-	// Try to print out all vales
-	private class CampsiteList {
-		Campsite[] campsites;
-		int count;
-	}
-
 	public static void printSubString(String str, int number) {
 		for (int i = 0; i < str.length();) {
 			int end = Math.min(str.length(), i + number);
@@ -57,6 +53,11 @@ public class helloWorld {
 			i = end;
 		}
 
+	}
+	
+	public static void printingAllCampsites() throws Exception {
+		String[] campSites = { "98", "102" };
+		
 	}
 
 //    Link to all campsites
