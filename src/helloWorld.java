@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -16,34 +17,75 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 import src.Campsite;
 
 public class helloWorld {
 	public static void main(String[] args) {
-		String[] campSites = { "98", "102" };		
+		String[] campSites = { "98", "102" };	
+		
+		// The web site takes int year, int month, int date, int hrs, int min, int sec
+	    int year = 2009;
+	    int month = 0; // January
+	    int date = 1;
 
-		try {
-			String oneCampsite = new String(getOneCampsite(campSites));
-			System.out.println(oneCampsite.toString());
-			Campsite trueCampsite = new Campsite(oneCampsite);
-			
-			System.out.println(trueCampsite);
-			
-			// ALL campsites
-			String stringOfCampsites = new String(getAllCampsite(campSites));	
-			CampsiteList campsiteList = new CampsiteList(stringOfCampsites);
-			System.out.print(campsiteList.toString());
+	    Calendar cal = Calendar.getInstance();
+	    cal.clear();
 
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println(e);
-
+	    cal.set(Calendar.YEAR, year);
+	    cal.set(Calendar.MONTH, month);
+	    cal.set(Calendar.DATE, date);
+	    
+	    Date utilDate = cal.getTime();
+	    // start_date=2022-02-01T00%3A00%3A00.000Z
+	    
+	    String pattern = "yyyy-MM-dd_HH_mm_ss.mmm_";
+	    SimpleDateFormat formateDate = new SimpleDateFormat(pattern);
+		String strDate = formateDate.format(utilDate);
+		String[] arrayString = strDate.split("_");
+		
+		// Insert specific element into the date 
+		String[] additionalElement = {"T", "%3", "%3", "Z"};
+		for(int i = 0; i < additionalElement.length; i++) {
+			arrayString[i] = arrayString[i].concat(additionalElement[i]);
 		}
 		
-		System.out.println("end");
+		// Combing the new element into the str
+		strDate = "";
+		for(int i = 0; i < arrayString.length; i++) {
+			strDate = strDate.concat(arrayString[i]);
+		}
+		
+		System.out.println(strDate);
+
+
+		
+		// [T, %3A, %3A, Z]
+		
+		
+//		try {
+//			String oneCampsite = new String(getOneCampsite(campSites));
+//			System.out.println(oneCampsite.toString());
+//			Campsite trueCampsite = new Campsite(oneCampsite);
+//			
+//			System.out.println(trueCampsite);
+//			
+//			// ALL campsites
+//			String stringOfCampsites = new String(getAllCampsite(campSites));	
+//			CampsiteList campsiteList = new CampsiteList(stringOfCampsites);
+//			System.out.print(campsiteList.toString());
+//
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			System.out.println(e);
+//
+//		}
+		
+		System.out.println("\nend");
 	}
 
 	public static void printSubString(String str, int number) {
