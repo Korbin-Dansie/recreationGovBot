@@ -2,7 +2,11 @@ package src;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,7 +20,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class Campsite {
-	Map<Date, String> availabilities = new HashMap<>();
+	Map<LocalDate, String> availabilities = new HashMap<>();
 	int campsite_id;
 	String campsite_reserve_type;
 	String campsite_type;
@@ -67,16 +71,12 @@ public class Campsite {
 				for (Map.Entry<String, JsonElement> dates : availabilitiesSet) {
 					
 					String str = dates.getKey();
-					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
-					Date date;
-					try {
-						date = formatter.parse(str);
-						availabilities.put(date, dates.getValue().getAsString());
+										
+					OffsetDateTime odt = OffsetDateTime.parse(str);
+					Instant instant = odt.toInstant();
+					LocalDate date = LocalDate.ofInstant(instant, ZoneId.systemDefault());
 
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					availabilities.put(date, dates.getValue().getAsString());
 
 				} // End of availabilities dates					
 
@@ -135,11 +135,11 @@ public class Campsite {
         return text;
     }
 
-	public Map<Date, String> getAvailabilities() {
+	public Map<LocalDate, String> getAvailabilities() {
 		return availabilities;
 	}
 
-	public void setAvailabilities(Map<Date, String> availabilities) {
+	public void setAvailabilities(Map<LocalDate, String> availabilities) {
 		this.availabilities = availabilities;
 	}
 

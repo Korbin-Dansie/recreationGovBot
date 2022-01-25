@@ -26,29 +26,52 @@ import src.Campsite;
 public class helloWorld {
 	public static void main(String[] args) {
 		String[] campSites = { "98", "102" };	
+		int year = 2022;
+		// January is defined as month 0, not month 1
+		int month = 3 - 1;
+		int day = 1; // Start day need to be 1.
 		
-		// The web site takes int year, int month, int date, int hrs, int min, int sec
-	    int year = 2009;
-	    int month = 0; // January
-	    int date = 1;
+	    
+		try {
+//			String oneCampsite = new String(getOneCampsite(campSites));
+//			System.out.println(oneCampsite.toString());
+//			Campsite trueCampsite = new Campsite(oneCampsite);
+//			
+//			System.out.println(trueCampsite);
+			
+			// ALL campsites
+			String stringOfCampsites = new String(getAllCampsite(campSites, year, month, day));	
+			CampsiteList campsiteList = new CampsiteList(stringOfCampsites);
+			System.out.print(campsiteList.toString());
 
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println(e);
+
+		}
+		
+		System.out.println("\nend");
+	}
+	
+	public static String converttoDateFormat(int year, int month, int day) {
 	    Calendar cal = Calendar.getInstance();
 	    cal.clear();
 
 	    cal.set(Calendar.YEAR, year);
 	    cal.set(Calendar.MONTH, month);
-	    cal.set(Calendar.DATE, date);
+	    cal.set(Calendar.DATE, day);
 	    
 	    Date utilDate = cal.getTime();
 	    // start_date=2022-02-01T00%3A00%3A00.000Z
-	    
+
 	    String pattern = "yyyy-MM-dd_HH_mm_ss.mmm_";
 	    SimpleDateFormat formateDate = new SimpleDateFormat(pattern);
 		String strDate = formateDate.format(utilDate);
 		String[] arrayString = strDate.split("_");
 		
 		// Insert specific element into the date 
-		String[] additionalElement = {"T", "%3", "%3", "Z"};
+		String[] additionalElement = {"T", "%3A", "%3A", "Z"};
 		for(int i = 0; i < additionalElement.length; i++) {
 			arrayString[i] = arrayString[i].concat(additionalElement[i]);
 		}
@@ -59,33 +82,7 @@ public class helloWorld {
 			strDate = strDate.concat(arrayString[i]);
 		}
 		
-		System.out.println(strDate);
-
-
-		
-		// [T, %3A, %3A, Z]
-		
-		
-//		try {
-//			String oneCampsite = new String(getOneCampsite(campSites));
-//			System.out.println(oneCampsite.toString());
-//			Campsite trueCampsite = new Campsite(oneCampsite);
-//			
-//			System.out.println(trueCampsite);
-//			
-//			// ALL campsites
-//			String stringOfCampsites = new String(getAllCampsite(campSites));	
-//			CampsiteList campsiteList = new CampsiteList(stringOfCampsites);
-//			System.out.print(campsiteList.toString());
-//
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			System.out.println(e);
-//
-//		}
-		
-		System.out.println("\nend");
+		return strDate;
 	}
 
 	public static void printSubString(String str, int number) {
@@ -104,10 +101,24 @@ public class helloWorld {
 
 //    Link to all campsites
 //    https://www.recreation.gov/api/camps/availability/campground/232447/month?start_date=2022-02-01T00%3A00%3A00.000Z
-	public static String getAllCampsite(String[] args) throws Exception {
+	/**
+	 * 
+	 * @param args
+	 * @param year which year are you looking at
+	 * @param month which month are you looking at
+	 * @param day which day should be 1.
+	 * @return a very big string in json format of all the campsites
+	 * @throws Exception
+	 */
+	public static String getAllCampsite(String[] args, int year, int month, int day) throws Exception {
+		
+		String startDate = converttoDateFormat(year, month, day);
 		// Initialize a new array of empty strings
 		String returnString = new String();
-		String text = "https://www.recreation.gov/api/camps/availability/campground/232447/month?start_date=2022-02-01T00%3A00%3A00.000Z";
+		String text = "https://www.recreation.gov/api/camps/availability/campground/232447/month?start_date=" + startDate;
+		
+		System.out.print(text);
+		
 		URL website = new URL(text);
 		URLConnection connection = website.openConnection();
 		BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
