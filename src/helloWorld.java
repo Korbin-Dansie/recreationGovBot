@@ -1,11 +1,13 @@
 package src;
 
 import java.io.BufferedReader;
-
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -40,9 +42,32 @@ public class helloWorld {
 //			System.out.println(trueCampsite);
 			
 			// ALL campsites
-			String stringOfCampsites = new String(getAllCampsite(campSites, year, month, day));	
+//			String stringOfCampsites = new String(getAllCampsite(campSites, year, month, day));	
+			
+			// Debug test.
+			String stringOfCampsites = new String(readFromCamplistJsonFile());	
+
 			CampsiteList campsiteList = new CampsiteList(stringOfCampsites);
-			System.out.print(campsiteList.toString());
+//			System.out.print(campsiteList.toString());
+			
+			// campsite_id : 149 is avaiable  
+			for(Campsite camp : campsiteList.getPossibleCampsites()) {
+				if(camp.getCampsite_id() == 149) {
+					System.out.print(camp);
+					// Loop through dates
+					for(Map.Entry<LocalDate, String> date : camp.getAvailabilities().entrySet()) {
+						System.out.println("\nKey :" + date.getKey());
+						System.out.println("\nValue : " + date.getValue() );
+						if(date.getValue().equals("Available")) {
+							System.out.println("FOUND");
+						}
+					}
+
+				}
+			}
+			
+			
+			
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -52,6 +77,24 @@ public class helloWorld {
 		}
 		
 		System.out.println("\nend");
+	}
+	
+	public static String readFromCamplistJsonFile() {
+		String returnString = new String();
+
+	    try {
+	        File myObj = new File("campsiteList-02.json");
+	        Scanner myReader = new Scanner(myObj);
+	        while (myReader.hasNextLine()) {
+	          String data = myReader.nextLine();
+	          returnString += data;
+	        }
+	        myReader.close();
+	      } catch (FileNotFoundException e) {
+	        System.out.println("An error occurred.");
+	        e.printStackTrace();
+	      }
+		return returnString;
 	}
 	
 	public static String converttoDateFormat(int year, int month, int day) {
