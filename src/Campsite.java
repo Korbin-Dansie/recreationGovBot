@@ -20,17 +20,17 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class Campsite {
-	Map<LocalDate, String> availabilities = new HashMap<>();
-	int campsite_id;
-	String campsite_reserve_type;
-	String campsite_type;
-	String capacity_rating;
-	String loop;
-	int max_num_people;
-	int min_num_people;
-	JsonElement quantities;
-	String site;
-	String type_of_use; 
+	private Map<LocalDate, String> availabilities = new HashMap<>();
+	private int campsite_id;
+	private String campsite_reserve_type;
+	private String campsite_type;
+	private String capacity_rating;
+	private String loop;
+	private int max_num_people;
+	private int min_num_people;
+	private JsonElement quantities;
+	private String site;
+	private String type_of_use; 
 	
 	public Campsite() {
 		// TODO Auto-generated constructor stub

@@ -9,8 +9,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class CampsiteList {
-	ArrayList<Campsite> possibleCampsites = new ArrayList<Campsite>();
-	int count = 0;
+	private ArrayList<Campsite> possibleCampsites = new ArrayList<Campsite>();
+	private int count = 0;
 
 	/**
 	 * Takes the api from 

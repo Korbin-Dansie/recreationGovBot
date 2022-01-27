@@ -66,7 +66,14 @@ public class helloWorld {
 				}
 			}
 			
+			// Temparary Start and end dates
+			LocalDate startDate = LocalDate.of(2022, 2, 1);
+			LocalDate endDate = LocalDate.of(2022, 2, 28);
+			int facilityID = 232447;
+			ArrayList<String> campsiteList2 = new ArrayList<String>();
 			
+			CampsiteStorage dbStorage = new CampsiteStorage(startDate, endDate,facilityID, campsiteList2);
+			dbStorage.generateStorageFile();
 			
 
 		} catch (Exception e) {
