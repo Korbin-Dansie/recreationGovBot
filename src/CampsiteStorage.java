@@ -2,9 +2,11 @@ package src;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -14,43 +16,54 @@ import java.util.List;
 
 // Make a json file to store alerts
 public class CampsiteStorage {
-	
+
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private int facilityID;
 	private ArrayList<String> campsiteID;
 
-	public CampsiteStorage(LocalDate startDate, LocalDate endDate, int facilityID, ArrayList<String> campsiteID ) {
+	public CampsiteStorage(LocalDate startDate, LocalDate endDate, int facilityID, ArrayList<String> campsiteID) {
 		// TODO Auto-generated constructor stub
 		this.startDate = startDate;
 		this.endDate = endDate;
 
 		this.facilityID = facilityID;
-		
-		this.campsiteID = campsiteID;	
+
+		this.campsiteID = campsiteID;
 	}
-	
+
 	public void generateStorageFile() {
-	    try {
-	        File myObj = new File("database/filename.txt");
-	        if (myObj.createNewFile()) {
+		try {
+			File myObj = new File("database/filename.txt");
+			if (myObj.createNewFile()) {
 
-	        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-	                    new FileOutputStream("database/filename.txt"), "utf-8"))) {
-	        //Write stuff
-	         writer.write("something");
-	        }
+				generateLocalData();
 
+				System.out.println("File created: " + myObj.getName());
+			}
 
-	        
-	          System.out.println("File created: " + myObj.getName());
-	        } else {
-	          System.out.println("File already exists.");
-	        }
-	      } catch (IOException e) {
-	        System.out.println("An error occurred.");
-	        e.printStackTrace();
-	      }
+			// File already exists
+			else {
+				generateLocalData();
+
+			}
+		} catch (IOException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+	}
+
+	private void generateLocalData() throws UnsupportedEncodingException, FileNotFoundException, IOException {
+		try (Writer writer = new BufferedWriter(
+				new OutputStreamWriter(new FileOutputStream("database/filename.txt"), "utf-8"))) {
+			// Write stuff
+			writer.write("Important information");
+
+		} catch (IOException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+
 	}
 
 	public LocalDate getStartDate() {
@@ -84,7 +97,5 @@ public class CampsiteStorage {
 	public void setCampsiteID(ArrayList<String> campsiteID) {
 		this.campsiteID = campsiteID;
 	}
-	
-	
 
 }

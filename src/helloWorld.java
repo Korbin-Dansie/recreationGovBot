@@ -45,26 +45,26 @@ public class helloWorld {
 //			String stringOfCampsites = new String(getAllCampsite(campSites, year, month, day));	
 			
 			// Debug test.
-			String stringOfCampsites = new String(readFromCamplistJsonFile());	
-
-			CampsiteList campsiteList = new CampsiteList(stringOfCampsites);
-//			System.out.print(campsiteList.toString());
-			
-			// campsite_id : 149 is avaiable  
-			for(Campsite camp : campsiteList.getPossibleCampsites()) {
-				if(camp.getCampsite_id() == 149) {
-					System.out.print(camp);
-					// Loop through dates
-					for(Map.Entry<LocalDate, String> date : camp.getAvailabilities().entrySet()) {
-						System.out.println("\nKey :" + date.getKey());
-						System.out.println("\nValue : " + date.getValue() );
-						if(date.getValue().equals("Available")) {
-							System.out.println("FOUND");
-						}
-					}
-
-				}
-			}
+//			String stringOfCampsites = new String(readFromCamplistJsonFile());	
+//
+//			CampsiteList campsiteList = new CampsiteList(stringOfCampsites);
+////			System.out.print(campsiteList.toString());
+//			
+//			// campsite_id : 149 is avaiable  
+//			for(Campsite camp : campsiteList.getPossibleCampsites()) {
+//				if(camp.getCampsite_id() == 149) {
+//					System.out.print(camp);
+//					// Loop through dates
+//					for(Map.Entry<LocalDate, String> date : camp.getAvailabilities().entrySet()) {
+//						System.out.println("\nKey :" + date.getKey());
+//						System.out.println("\nValue : " + date.getValue() );
+//						if(date.getValue().equals("Available")) {
+//							System.out.println("FOUND");
+//						}
+//					}
+//
+//				}
+//			}
 			
 			// Temparary Start and end dates
 			LocalDate startDate = LocalDate.of(2022, 2, 1);
