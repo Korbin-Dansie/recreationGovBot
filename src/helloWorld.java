@@ -72,7 +72,10 @@ public class helloWorld {
 			int facilityID = 232447;
 			ArrayList<String> campsiteList2 = new ArrayList<String>();
 			
-			CampsiteStorage dbStorage = new CampsiteStorage(startDate, endDate,facilityID, campsiteList2);
+			Trip trip = new Trip(startDate, endDate,facilityID, campsiteList2);
+			CampsiteStorage dbStorage = new CampsiteStorage();
+			dbStorage.addTrip(trip);
+			
 			dbStorage.generateStorageFile();
 			
 

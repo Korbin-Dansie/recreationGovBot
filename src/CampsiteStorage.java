@@ -14,23 +14,33 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.gson.Gson;
+
 // Make a json file to store alerts
 public class CampsiteStorage {
+	
+	private ArrayList<Trip> campsiteID = new ArrayList<Trip>();
 
-	private LocalDate startDate;
-	private LocalDate endDate;
-	private int facilityID;
-	private ArrayList<String> campsiteID;
+	public CampsiteStorage() {
+		
+	}
+	
+	public ArrayList<Trip> getCampsiteID() {
+		return campsiteID;
+	}
 
-	public CampsiteStorage(LocalDate startDate, LocalDate endDate, int facilityID, ArrayList<String> campsiteID) {
-		// TODO Auto-generated constructor stub
-		this.startDate = startDate;
-		this.endDate = endDate;
-
-		this.facilityID = facilityID;
-
+	public void setCampsiteID(ArrayList<Trip> campsiteID) {
 		this.campsiteID = campsiteID;
 	}
+	
+	/**
+	 * Add a new trip to the list
+	 * @param trip
+	 */
+	public void addTrip(Trip trip) {
+		campsiteID.add(trip);
+	}
+
 
 	public void generateStorageFile() {
 		try {
@@ -57,7 +67,12 @@ public class CampsiteStorage {
 		try (Writer writer = new BufferedWriter(
 				new OutputStreamWriter(new FileOutputStream("database/filename.txt"), "utf-8"))) {
 			// Write stuff
-			writer.write("Important information");
+			
+			Gson gson = new Gson();
+			gson.toJson(campsiteID);
+			
+			writer.write(gson.toString());
+
 
 		} catch (IOException e) {
 			System.out.println("An error occurred.");
@@ -65,37 +80,5 @@ public class CampsiteStorage {
 		}
 
 	}
-
-	public LocalDate getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(LocalDate startDate) {
-		this.startDate = startDate;
-	}
-
-	public LocalDate getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(LocalDate endDate) {
-		this.endDate = endDate;
-	}
-
-	public int getFacilityID() {
-		return facilityID;
-	}
-
-	public void setFacilityID(int facilityID) {
-		this.facilityID = facilityID;
-	}
-
-	public ArrayList<String> getCampsiteID() {
-		return campsiteID;
-	}
-
-	public void setCampsiteID(ArrayList<String> campsiteID) {
-		this.campsiteID = campsiteID;
-	}
-
+	
 }
