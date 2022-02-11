@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Trip {
-	private LocalDate startDate;
-	private LocalDate endDate;
-	private int facilityID;
-	private ArrayList<String> campsiteID;
+	private  LocalDate startDate;
+	private  LocalDate endDate;
+	private  int facilityID;
+	private  ArrayList<String> campsiteID;
 
 	public LocalDate getStartDate() {
 		return startDate;
@@ -51,5 +51,20 @@ public class Trip {
 
 		this.campsiteID = campsiteID;
 	}
+	
+//	Have to create my own JSON fromat because gson does not support dates
+    public String toString() {
+    	String returnString = new String();
+    	returnString += "{\n";
+    	returnString += "\"startDate\":" + startDate + ",\n";
+    	returnString += "\"endDate\":"    + endDate + ",\n";
+    	returnString += "\"facilityID\":"    + facilityID + ",\n";
+    	returnString += "\"campsiteID\":"    + campsiteID + "\n";
+    	returnString += "}\n";
+
+    	return returnString;
+
+    }
+	
 
 }

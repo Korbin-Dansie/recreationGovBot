@@ -69,10 +69,9 @@ public class CampsiteStorage {
 			// Write stuff
 			
 			Gson gson = new Gson();
-			gson.toJson(campsiteID);
-			
-			writer.write(gson.toString());
-
+			for(Trip temp : campsiteID ) {
+				writer.write(temp.toString());
+			}	
 
 		} catch (IOException e) {
 			System.out.println("An error occurred.");
